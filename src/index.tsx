@@ -1,18 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { StyledEngineProvider } from '@mui/material/styles';
 import App from './App';
 
-const container = document.getElementById('root');
-if (!container) {
-  throw new Error('Root container missing in index.html.');
-}
-const root = ReactDOM.createRoot(container);
-
-root.render(
+ReactDOM.createRoot(document.querySelector("#root")!).render(
   <React.StrictMode>
-    <App />
+    <StyledEngineProvider injectFirst>
+      <App />
+    </StyledEngineProvider>
   </React.StrictMode>
 );
-
-
-
