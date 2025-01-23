@@ -1,169 +1,114 @@
-import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Divider,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { usePostContext } from "../context/PostContext";
+import React, { useState, useRef } from "react";
+import { Button, TextField, Typography, Box, Avatar } from "@mui/material";
 
-export const Comment = ({ postId }: { postId: number | undefined }) => {
-  const { postComments, addComment, addReply } = usePostContext();
-  const [replyState, setReplyState] = useState<{
-    commentId: number;
-    text: string;
-  } | null>(null);
-  const [newCommentText, setNewCommentText] = useState("");
 
-  const StyledTypography = styled(Typography)(({
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: 2,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  }));
+const Comment: React.FC<{
+  comment: CommentData;
+  addReply: (commentId: number, replyText: string) => void;
+}> = ({ comment, addReply }) => {
+  const [replyText, setReplyText] = useState("");
+  const [showReplyBox, setShowReplyBox] = useState(false);
+  const inputEl = useRef<HTMLInputElement>(null);
 
-  // Handle reply text change
-  const handleReplyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (replyState) {
-      setReplyState({ ...replyState, text: e.target.value });
+  const handleReplyClick = () => {
+    setShowReplyBox(true);
+    setTimeout(() => inputEl.current?.focus());
+  };
+
+  const handleReplySave = () => {
+    if (replyText.trim()) {
+      addReply(comment.id, replyText);
     }
+    setShowReplyBox(false);
+    setReplyText("");
   };
 
-  // Submit a new comment for a specific post
-  const submitComment = () => {
-    if (newCommentText.trim()) {
-      addComment(postId!, newCommentText);  // Ensure `postId` is not `undefined`
-      setNewCommentText("");  // Reset after submitting
-    }
-  };
-
-  // Handle the reply action for a specific comment
-  const handleReply = (commentId: number) => {
-    setReplyState({ commentId, text: "" });
-  };
-
-  // Submit the reply to a comment
-  const submitReply = (commentId: number) => {
-    if (replyState?.text.trim()) {
-      addReply(commentId, replyState.text);
-      setReplyState(null);  // Reset reply state
-    }
-  };
-
-  // Render replies recursively
-  const renderReplies = (replies: any[], parentCommentId: number) => {
-    return replies.map((reply) => (
-      <Box key={reply.id} sx={{ ml: 3, borderLeft: "1px solid #ccc", pl: 2 }}>
-        <Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "center" }}>
-          <Avatar alt={reply.author.name} src={reply.author.avatar} sx={{ width: 24, height: 24 }} />
-          <StyledTypography variant="body1" fontWeight="bold">
-            {reply.author.name}
-          </StyledTypography>
-        </Box>
-        <StyledTypography variant="body2" color="text.secondary" sx={{ padding: "6px" }}>
-          {reply.commentText}
-        </StyledTypography>
-        <StyledTypography variant="caption" color="text.secondary">
-          {reply.date}
-        </StyledTypography>
-        <Box mt={1}>
-          <Button size="small" onClick={() => handleReply(reply.id)}>
-            Reply
-          </Button>
-        </Box>
-        {replyState?.commentId === reply.id && (
-          <Box mt={1}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              size="small"
-              value={replyState?.text}
-              onChange={handleReplyChange}
-              placeholder="Write your reply..."
-            />
-            <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={() => submitReply(reply.id)}>
-              Submit
-            </Button>
-          </Box>
-        )}
-        {reply.replies && renderReplies(reply.replies, reply.id)}
-      </Box>
-    ));
+  const handleReplyCancel = () => {
+    setShowReplyBox(false);
+    setReplyText("");
   };
 
   return (
-    <Box>
-      <StyledTypography variant="h4" gutterBottom>
-        Comments
-      </StyledTypography>
-
-      {/* Comment Form */}
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          size="small"
-          value={newCommentText}
-          onChange={(e) => setNewCommentText(e.target.value)}
-          placeholder="Write a comment..."
-        />
-        <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={submitComment}>
-          Add Comment
-        </Button>
+    <Box key={comment.id} sx={{ ml: 0, borderLeft: "1px solid #ccc", pl: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 1,
+          alignItems: "center",
+        }}
+      >
+        <Avatar alt="Abraham Yohannes" src="" sx={{ width: 24, height: 24 }} />
+        <Typography variant="body1" fontWeight="bold">
+          {comment.author}
+        </Typography>
       </Box>
 
-      {/* Display Comments */}
-      {postComments
-        .filter((comment) => comment.postId === postId)
-        .map((comment) => (
-          <Card key={comment.id} variant="outlined" sx={{ mb: 3 }}>
-            <CardContent>
-              <Box sx={{ display: "flex", flexDirection: "row", gap: 1, alignItems: "center" }}>
-                <Avatar alt={comment.author.name} src={comment.author.avatar} sx={{ width: 24, height: 24 }} />
-                <StyledTypography variant="body1" fontWeight="bold">
-                  {comment.author.name}
-                </StyledTypography>
-              </Box>
-              <StyledTypography variant="body2" color="text.secondary" sx={{ padding: "6px" }}>
-                {comment.commentText}
-              </StyledTypography>
-              <StyledTypography variant="caption" color="text.secondary">
-                {comment.date}
-              </StyledTypography>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ padding: "6px" }}
+      >
+        {comment.display}
+      </Typography>
 
-              <Box mt={2}>
-                <Button size="small" onClick={() => handleReply(comment.id)}>
-                  Reply
-                </Button>
-              </Box>
+      <Typography variant="caption" color="text.secondary">
+        {new Date(comment.commentedDate).toDateString()}
+      </Typography>
+      {!showReplyBox && (
+        <Button size="small" onClick={handleReplyClick}>
+          Reply
+        </Button>
+      )}
 
-              {replyState?.commentId === comment.id && (
-                <Box mt={2}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    value={replyState?.text}
-                    onChange={handleReplyChange}
-                    placeholder="Write your reply..."
-                  />
-                  <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={() => submitReply(comment.id)}>
-                    Submit
-                  </Button>
-                </Box>
-              )}
+      {showReplyBox && (
+        <Box sx={{ marginTop: 1 }}>
+          <TextField
+            inputRef={inputEl}
+            variant="outlined"
+            size="small"
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder="Your reply"
+          />
+          <Box
+            sx={{
+              marginTop: 1,
+              display: "flex",
+              flexDirection: "row",
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              size="small"
+              onClick={handleReplySave}
+              sx={{ marginRight: 1 }}
+            >
+              Save
+            </Button>
+            <Button size="small" onClick={handleReplyCancel}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      )}
 
-              <Divider sx={{ my: 2 }} />
-              {comment.replies && renderReplies(comment.replies, comment.id)}
-            </CardContent>
-          </Card>
-        ))}
+      {comment.children.length > 0 && (
+        <Box sx={{ marginLeft: 3 }}>
+          <ul>
+            {comment.children.map((childComment) => (
+              <Comment
+                key={childComment.id}
+                comment={childComment}
+                addReply={addReply}
+              />
+            ))}
+          </ul>
+        </Box>
+      )}
     </Box>
   );
 };
+
+export default Comment;

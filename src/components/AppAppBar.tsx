@@ -14,6 +14,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ColorModeIconDropdown from ".././theme/ColorModeIconDropdown";
 import { Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
+import { Link } from "react-router-dom";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -57,19 +58,21 @@ export default function AppAppBar() {
               gap: 4,
             }}
           >
-            <Typography
-              variant="h5"
-              gutterBottom
-              sx={{
-                color: "#FF6F61",
-                alignItems: "center",
-                display: "flex",
-                gap: 1,
-              }}
-            >
-              <ForumIcon sx={{ color: "#FF6F61" }} />
-              Community
-            </Typography>
+            <Link to="/">
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{
+                  color: "#FF6F61",
+                  alignItems: "center",
+                  display: "flex",
+                  gap: 1,
+                }}
+              >
+                <ForumIcon sx={{ color: "#FF6F61" }} />
+                Community
+              </Typography>
+            </Link>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <Button variant="text" color="info" size="small">
                 Features
@@ -139,7 +142,7 @@ export default function AppAppBar() {
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button color="primary" variant="contained" fullWidth>
-                   Post
+                    Post
                   </Button>
                 </MenuItem>
               </Box>

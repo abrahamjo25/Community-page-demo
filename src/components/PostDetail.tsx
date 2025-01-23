@@ -11,11 +11,8 @@ import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import { Provider } from "./Provider";
 import { postsdata } from "../data/mockData";
-import { Comment } from "./Comment";
+import  Comment  from "./Comments";
 
-interface MatchParams {
-  id?: string;
-}
 
 const SyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -152,7 +149,6 @@ export const PostDetail = () => {
                 <Typography gutterBottom variant="h6" component="div">
                   {mainContent?.title}
                 </Typography>
-                {/* Show description only for main content */}
                 {mainContent?.description && (
                   <StyledTypography
                     variant="body2"
@@ -165,7 +161,7 @@ export const PostDetail = () => {
               </SyledCardContent>
               <Author authors={mainContent?.authors} />
             </SyledCard>
-            <Comment postId ={mainContent?.id}/>
+            <Comment postId = {mainContent?.id}/>
           </Grid>
 
           {/* Related Posts */}
