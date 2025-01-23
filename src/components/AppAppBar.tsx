@@ -12,7 +12,6 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ColorModeIconDropdown from ".././theme/ColorModeIconDropdown";
-import Community from "./Community";
 import { Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -134,19 +133,13 @@ export default function AppAppBar() {
                 </Box>
                 <MenuItem>Features</MenuItem>
                 <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
+                <MenuItem>Our Story</MenuItem>
+                <MenuItem>Membership</MenuItem>
                 <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
-                </MenuItem>
-                <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
+                   Post
                   </Button>
                 </MenuItem>
               </Box>
