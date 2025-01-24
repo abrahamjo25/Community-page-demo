@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -10,53 +10,111 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import { usePostContext } from "../context/PostContext";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link, useHistory } from "react-router-dom";
+export const CreatePost = () => {
+  const { addPost } = usePostContext();
+  const history = useHistory();
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [tag, setTag] = useState<string>("");
+  const [image, setImage] = useState<string>(
+    "https://via.placeholder.com/800x400"
+  );
 
-const CreatePost = () => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setImage(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (title && description && tag && image) {
+      addPost({
+        img: image,
+        tag,
+        title,
+        description,
+        authors: [
+          {
+            name: "Default Author",
+            avatar: "/static/images/avatar/default.jpg",
+            date: new Date().toISOString(),
+          },
+        ],
+      });
+
+      setTitle("");
+      setDescription("");
+      setTag("");
+      setImage("https://via.placeholder.com/800x400");
+      history.push("/");
+    }
+  };
+
   return (
     <Box sx={{ bgcolor: "#f9f9f9", py: 4, minHeight: "100vh" }}>
       <Container maxWidth="md">
-        {/* Blog Header */}
         <Box sx={{ textAlign: "center", mb: 4 }}>
-          <Typography variant="h3" component="h1" gutterBottom>
-            Create Your Blog Post
-          </Typography>
+          <Box
+            sx={{
+              textAlign: "center",
+              mb: 4,
+              display: "flex",
+              flexDirection: "row",
+              gap: 8,
+            }}
+          >
+            <Link to="/">
+              <Button color="primary" variant="contained" size="small">
+                <ArrowBackIcon />
+                Home
+              </Button>
+            </Link>
+            <Typography variant="h3" component="h1" gutterBottom>
+              Create Your Post
+            </Typography>
+          </Box>
           <Typography variant="body1" color="text.secondary">
             Share your thoughts with the world! Add an image and your text
             content below.
           </Typography>
         </Box>
 
-        {/* Blog Form */}
         <Card sx={{ p: 2, boxShadow: 3 }}>
           <CardContent>
             <Grid container spacing={3}>
-              {/* Image Upload */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Upload Image
                 </Typography>
                 <Button variant="contained" component="label">
                   Upload Image
-                  <input type="file" hidden />
+                  <input type="file" hidden onChange={handleImageUpload} />
                 </Button>
               </Grid>
 
               {/* Blog Title */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Blog Title
+                  Title
                 </Typography>
                 <TextField
                   fullWidth
                   placeholder="Enter your blog title here"
                   variant="outlined"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Grid>
 
-              {/* Blog Content */}
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
-                  Blog Content
+                  Content
                 </Typography>
                 <TextField
                   fullWidth
@@ -64,12 +122,32 @@ const CreatePost = () => {
                   rows={8}
                   placeholder="Write your blog content here..."
                   variant="outlined"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Grid>
 
-              {/* Submit Button */}
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  Tag
+                </Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Add a tag (e.g., Photography, Culture)"
+                  variant="outlined"
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                />
+              </Grid>
+
               <Grid item xs={12} textAlign="center">
-                <Button variant="contained" size="large">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  onClick={handleSubmit}
+                  disabled={!title || !description || !tag || !image}
+                >
                   Publish Blog
                 </Button>
               </Grid>
@@ -77,25 +155,32 @@ const CreatePost = () => {
           </CardContent>
         </Card>
 
-        {/* Preview Section */}
         <Box sx={{ mt: 6 }}>
           <Typography variant="h4" component="h2" gutterBottom>
-            Blog Preview
+            Post Preview
           </Typography>
           <Card sx={{ boxShadow: 3 }}>
             <CardMedia
               component="img"
-              image="https://via.placeholder.com/800x400" // Placeholder image
+              image={image}
               alt="Blog Post Image"
               sx={{ height: 400 }}
             />
             <CardContent>
               <Typography variant="h5" gutterBottom>
-                Blog Title Goes Here
+                {title || "Blog Title Goes Here"}
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                This is where the blog content will be previewed. The content
-                will be shown here after submission or while editing.
+                {description ||
+                  "This is where the blog content will be previewed."}
+              </Typography>
+              <Typography
+                variant="overline"
+                display="block"
+                color="text.secondary"
+                mt={2}
+              >
+                Tag: {tag || "No tag added yet"}
               </Typography>
             </CardContent>
           </Card>

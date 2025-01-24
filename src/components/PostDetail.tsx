@@ -10,8 +10,8 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import { Provider } from "./Provider";
-import { postsdata } from "../data/mockData";
 import  Comment  from "./Comments";
+import { usePostContext } from "../context/PostContext";
 
 
 const SyledCard = styled(Card)(({ theme }) => ({
@@ -97,10 +97,14 @@ function Author({
 
 export const PostDetail = () => {
   const { id } = useParams<MatchParams>();
+  const {posts} = usePostContext()
   const postId = Number(id);
 
-  const mainContent = postsdata.find((post) => post.id === postId);
-  const relatedPosts = postsdata.filter((post) => post.id !== postId);
+  const mainContent = posts.find((post) => post.id === postId);
+  console.log(id)
+  console.log(mainContent)
+
+  const relatedPosts = posts.filter((post) => post.id !== postId);
 
   const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
     null

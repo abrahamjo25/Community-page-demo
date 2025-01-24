@@ -14,7 +14,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ColorModeIconDropdown from ".././theme/ColorModeIconDropdown";
 import { Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -35,7 +35,10 @@ export default function AppAppBar() {
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-
+  const history = useHistory();
+  const createNewPost = () => {
+    history.push("/post/create");
+  };
   return (
     <AppBar
       position="fixed"
@@ -103,7 +106,12 @@ export default function AppAppBar() {
               alignItems: "center",
             }}
           >
-            <Button color="primary" variant="contained" size="small">
+            <Button
+              color="primary"
+              variant="contained"
+              size="small"
+              onClick={createNewPost}
+            >
               Post
             </Button>
             <ColorModeIconDropdown />

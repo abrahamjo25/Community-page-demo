@@ -13,8 +13,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { styled } from "@mui/material/styles";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { postsdata } from "../data/mockData";
 import { Link } from "react-router-dom";
+import { usePostContext } from "../context/PostContext";
 const SyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -90,7 +90,9 @@ function Author({
         </Typography>
       </Box>
       <Typography variant="caption">
-        {authors.map((author) => new Date(author.date).toDateString()).join(", ")}
+        {authors
+          .map((author) => new Date(author.date).toDateString())
+          .join(", ")}
       </Typography>
     </Box>
   );
@@ -121,7 +123,7 @@ export default function MainContent() {
   const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
     null
   );
-
+  const { posts } = usePostContext();
   const handleFocus = (index: number) => {
     setFocusedCardIndex(index);
   };
@@ -220,7 +222,7 @@ export default function MainContent() {
         </Box>
       </Box>
       <Grid container spacing={2} columns={12}>
-        {postsdata?.map((post, index) => (
+        {posts?.map((post, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
             <Link to={`/posts/${post.id}`} key={index}>
               <SyledCard
@@ -260,7 +262,6 @@ export default function MainContent() {
             </Link>
           </Grid>
         ))}
-
       </Grid>
     </Box>
   );
