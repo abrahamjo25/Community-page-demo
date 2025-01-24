@@ -1,4 +1,3 @@
-## Community Page
 
 # 1. Clone the Repository
 git clone https://github.com/abrahamjo25/Community-page.git
