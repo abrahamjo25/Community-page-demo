@@ -15,7 +15,7 @@ git clone https://github.com/abrahamjo25/Community-page.git
 Navigate into the project directory and install all the required dependencies using either `npm` or `yarn`.
 cd Community-page
 ```bash
-npm install
+npm install --force
 ```
 
 

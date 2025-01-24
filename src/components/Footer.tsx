@@ -161,7 +161,7 @@ export default function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="https://github.com/abrahamjo25/Community-page"
+              href="https://github.com/abrahamjo25/Community-page-demo.git"
               aria-label="GitHub"
               sx={{ alignSelf: "center" }}
             >
