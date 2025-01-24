@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Button, TextField, Typography, Box, Avatar } from "@mui/material";
 
-
 const Comment: React.FC<{
   comment: CommentData;
   addReply: (commentId: number, replyText: string) => void;
@@ -84,6 +83,7 @@ const Comment: React.FC<{
               size="small"
               onClick={handleReplySave}
               sx={{ marginRight: 1 }}
+              disabled={!replyText}
             >
               Save
             </Button>
