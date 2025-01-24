@@ -6,13 +6,13 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Grid,
   Button,
   TextField,
 } from "@mui/material";
 import { usePostContext } from "../context/PostContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useHistory } from "react-router-dom";
+
 export const CreatePost = () => {
   const { addPost } = usePostContext();
   const history = useHistory();
@@ -87,8 +87,8 @@ export const CreatePost = () => {
 
         <Card sx={{ p: 2, boxShadow: 3 }}>
           <CardContent>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <Box>
                 <Typography variant="h6" gutterBottom>
                   Upload Image
                 </Typography>
@@ -96,38 +96,35 @@ export const CreatePost = () => {
                   Upload Image
                   <input type="file" hidden onChange={handleImageUpload} />
                 </Button>
-              </Grid>
+              </Box>
 
-              {/* Blog Title */}
-              <Grid item xs={12}>
+              <Box>
                 <Typography variant="h6" gutterBottom>
                   Title
                 </Typography>
                 <TextField
                   fullWidth
-                  placeholder="Enter your blog title here"
+                  placeholder="Enter your  title here"
                   variant="outlined"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-              </Grid>
-
-              <Grid item xs={12}>
+              </Box>
+              <Box>
                 <Typography variant="h6" gutterBottom>
                   Content
                 </Typography>
                 <TextField
                   fullWidth
-                  multiline
-                  rows={8}
-                  placeholder="Write your blog content here..."
-                  variant="outlined"
+                  placeholder="Enter your  content here"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  variant="outlined"
                 />
-              </Grid>
+              </Box>
 
-              <Grid item xs={12}>
+              {/* Tag */}
+              <Box>
                 <Typography variant="h6" gutterBottom>
                   Tag
                 </Typography>
@@ -138,9 +135,9 @@ export const CreatePost = () => {
                   value={tag}
                   onChange={(e) => setTag(e.target.value)}
                 />
-              </Grid>
+              </Box>
 
-              <Grid item xs={12} textAlign="center">
+              <Box sx={{ textAlign: "center" }}>
                 <Button
                   color="primary"
                   variant="contained"
@@ -150,8 +147,8 @@ export const CreatePost = () => {
                 >
                   Publish Blog
                 </Button>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
 
@@ -163,16 +160,16 @@ export const CreatePost = () => {
             <CardMedia
               component="img"
               image={image}
-              alt="Blog Post Image"
+              alt="Post Image"
               sx={{ height: 400 }}
             />
             <CardContent>
               <Typography variant="h5" gutterBottom>
-                {title || "Blog Title Goes Here"}
+                {title || "Post Title Goes Here"}
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 {description ||
-                  "This is where the blog content will be previewed."}
+                  "This is where the post content will be previewed."}
               </Typography>
               <Typography
                 variant="overline"

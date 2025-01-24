@@ -1,12 +1,12 @@
 import React from "react";
-import MainContent from "../components/MainContent";
+import Posts from "./Posts";
 import Latest from "../components/Latest";
 import { Provider } from "./Provider";
 export const Home = () => {
   return (
     <div>
       <Provider>
-        <MainContent />
+        <Posts />
         <Latest />
       </Provider>
     </div>

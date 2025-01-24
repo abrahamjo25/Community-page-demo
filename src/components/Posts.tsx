@@ -119,7 +119,7 @@ export function Search() {
   );
 }
 
-export default function MainContent() {
+export default function Posts() {
   const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
     null
   );
