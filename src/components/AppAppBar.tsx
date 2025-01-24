@@ -12,9 +12,9 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ColorModeIconDropdown from ".././theme/ColorModeIconDropdown";
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -61,7 +61,7 @@ export default function AppAppBar() {
               gap: 4,
             }}
           >
-            <Link to="/">
+            <Link href="/" underline="none">
               <Typography
                 variant="h5"
                 gutterBottom

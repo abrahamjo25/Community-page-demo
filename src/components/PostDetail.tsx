@@ -10,9 +10,9 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import { Provider } from "./Provider";
-import  Comment  from "./Comments";
+import Comment from "./Comments";
 import { usePostContext } from "../context/PostContext";
-
+import { Link } from "@mui/material";
 
 const SyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -97,12 +97,12 @@ function Author({
 
 export const PostDetail = () => {
   const { id } = useParams<MatchParams>();
-  const {posts} = usePostContext()
+  const { posts } = usePostContext();
   const postId = Number(id);
 
   const mainContent = posts.find((post) => post.id === postId);
-  console.log(id)
-  console.log(mainContent)
+  console.log(id);
+  console.log(mainContent);
 
   const relatedPosts = posts.filter((post) => post.id !== postId);
 
@@ -165,7 +165,7 @@ export const PostDetail = () => {
               </SyledCardContent>
               <Author authors={mainContent?.authors} />
             </SyledCard>
-            <Comment postId = {mainContent?.id}/>
+            <Comment postId={mainContent?.id} />
           </Grid>
 
           {/* Related Posts */}
@@ -174,36 +174,39 @@ export const PostDetail = () => {
               Related Posts
             </Typography>
             {relatedPosts.map((post, index) => (
-              <SyledCard
-                key={post.id}
-                variant="outlined"
-                onFocus={() => handleFocus(index + 1)}
-                onBlur={handleBlur}
-                tabIndex={0}
-                sx={{ height: "400px" }}
-                className={focusedCardIndex === index + 1 ? "Mui-focused" : ""}
-              >
-                <CardMedia
-                  component="img"
-                  alt={post.title}
-                  image={post.img}
-                  sx={{
-                    aspectRatio: "16 / 9",
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                  }}
-                />
-                <SyledCardContent>
-                  <Typography gutterBottom variant="caption" component="div">
-                    {post.tag}
-                  </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
-                    {post.title}
-                  </Typography>
-                  {/* No description for related posts */}
-                </SyledCardContent>
-                <Author authors={post.authors} />
-              </SyledCard>
+              <Link key={post.id} href={`/posts/${post.id}`} underline="none">
+                <SyledCard
+                  variant="outlined"
+                  onFocus={() => handleFocus(index + 1)}
+                  onBlur={handleBlur}
+                  tabIndex={0}
+                  sx={{ height: "400px" }}
+                  className={
+                    focusedCardIndex === index + 1 ? "Mui-focused" : ""
+                  }
+                >
+                  <CardMedia
+                    component="img"
+                    alt={post.title}
+                    image={post.img}
+                    sx={{
+                      aspectRatio: "16 / 9",
+                      borderBottom: "1px solid",
+                      borderColor: "divider",
+                    }}
+                  />
+                  <SyledCardContent>
+                    <Typography gutterBottom variant="caption" component="div">
+                      {post.tag}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="div">
+                      {post.title}
+                    </Typography>
+                    {/* No description for related posts */}
+                  </SyledCardContent>
+                  <Author authors={post.authors} />
+                </SyledCard>
+              </Link>
             ))}
           </Grid>
         </Grid>

@@ -13,8 +13,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { styled } from "@mui/material/styles";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Link } from "react-router-dom";
 import { usePostContext } from "../context/PostContext";
+import { Link } from "@mui/material";
 const SyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -224,7 +224,7 @@ export default function Posts() {
       <Grid container spacing={2} columns={12}>
         {posts?.map((post, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
-            <Link to={`/posts/${post.id}`} key={index}>
+            <Link href={`/posts/${post.id}`} key={index} underline="none">
               <SyledCard
                 variant="outlined"
                 onFocus={() => handleFocus(0)}
