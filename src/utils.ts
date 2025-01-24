@@ -8,7 +8,7 @@ export function debounce<T extends (...args: any[]) => void>(fn: T, delay: numbe
   
       timeout = setTimeout(() => {
         fn(...args);
-        timeout = null; // Clear timeout after execution
+        timeout = null; 
       }, delay);
     }) as T;
   }

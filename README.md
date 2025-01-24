@@ -8,3 +8,6 @@ A React app showcasing a community page with posts and nested comments.
 2. Install dependencies:
    ```bash
    npm install
+
+   ```bash
+   npm start
