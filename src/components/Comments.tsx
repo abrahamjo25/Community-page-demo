@@ -74,8 +74,8 @@ const Comments = ({postId}:{postId: number | undefined}) => {
             variant="contained"
             size="small"
             sx={{ mt: 1 }}
-            disabled = {!comments}
             onClick={() => {
+              if(commentInput)
               setComments([newComment(commentInput), ...comments]);
               setCommentInput("");
             }}
